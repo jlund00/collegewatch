@@ -288,7 +288,7 @@ footer a:hover{text-decoration:underline;}
   <div class="hero-glow"></div>
   <div class="hero-glow2"></div>
   <div class="hero-inner">
-    <div class="hero-ey">EdOptima · AACC · Kogod School of Business · Spring 2025</div>
+    <div class="hero-ey">EdOptima · AACC · Kogod School of Business · Summer 2026</div>
     <h1>The Community College<br><span class="hl">Financial Crisis</span><br>Is <span class="ac">Hiding in Plain Sight</span></h1>
     <p class="hero-sub">878 public two-year colleges. 10 years of federal data. One early-warning system that tells state boards exactly which colleges need help — and what to do about them.</p>
     <div class="hero-acts">
@@ -297,9 +297,9 @@ footer a:hover{text-decoration:underline;}
     </div>
     <div class="hero-stats">
       <div class="hstat"><span class="v">878</span><span class="l">Colleges Studied</span></div>
-      <div class="hstat"><span class="v">59.7%</span><span class="l">Financially Distressed</span></div>
-      <div class="hstat"><span class="v">103</span><span class="l">Act Now (2024)</span></div>
-      <div class="hstat"><span class="v">88.2%</span><span class="l">Model Accuracy</span></div>
+      <div class="hstat"><span class="v">66.7%</span><span class="l">Financially Distressed</span></div>
+      <div class="hstat"><span class="v">111</span><span class="l">Act Now (2024)</span></div>
+      <div class="hstat"><span class="v">76.1%</span><span class="l">Model Accuracy</span></div>
     </div>
   </div>
   <div class="hero-num">
@@ -321,7 +321,7 @@ footer a:hover{text-decoration:underline;}
         <div class="ci"><div class="ci-dot" style="background:var(--red)"></div><div class="ci-num">-19%</div><div class="ci-desc">Enrollment decline since 2014. 5.51M → 4.46M students. Revenue follows enrollment — but costs don't.</div></div>
         <div class="ci"><div class="ci-dot" style="background:var(--amb)"></div><div class="ci-num">31%</div><div class="ci-desc">Of colleges were already in deficit spending in 2014. Still 31% in 2018. This predates COVID by 6 years.</div></div>
         <div class="ci"><div class="ci-dot" style="background:var(--blue)"></div><div class="ci-num">$14B</div><div class="ci-desc">In federal COVID relief (HEERF) temporarily dropped the at-risk rate to 9.6% in 2022. That money is gone.</div></div>
-        <div class="ci"><div class="ci-dot" style="background:var(--red)"></div><div class="ci-num">~147</div><div class="ci-desc">Colleges projected in deficit spending by 2027. 36 more than today. No recovery projected without action.</div></div>
+        <div class="ci"><div class="ci-dot" style="background:var(--red)"></div><div class="ci-num">~171</div><div class="ci-desc">Colleges projected in deficit spending by 2027. 60 more than today. No recovery projected without action.</div></div>
       </div>
     </div>
   </div>
@@ -348,7 +348,7 @@ footer a:hover{text-decoration:underline;}
       <div class="bgc">
         <div class="bgc-top red">
           <div class="bgc-icon">💸</div>
-          <div class="bgc-stat red">59.7%</div>
+          <div class="bgc-stat red">66.7%</div>
           <div class="bgc-label">Colleges Classified Distressed</div>
         </div>
         <div class="bgc-body">
@@ -397,8 +397,8 @@ footer a:hover{text-decoration:underline;}
         <div class="te-dot red">24</div>
         <div class="te-body">
           <div class="te-year red">2024 — Rising Again</div>
-          <div class="te-title">13.9% and projected to reach 18.4% by 2027</div>
-          <div class="te-desc">With HEERF funds fully depleted, the at-risk rate has climbed to 13.9%. Institution-level projections applying each college's own enrollment trend forward with 2% annual expense growth project 147 colleges in deficit spending by 2027 — 36 more than today. CollegeWatch was built to intervene before these projections become reality.</div>
+          <div class="te-title">13.9% and projected to reach ~21% by 2027</div>
+          <div class="te-desc">With HEERF funds fully depleted, the at-risk rate has climbed to 13.9%. Institution-level projections applying each college's own enrollment trend forward with 2% annual expense growth project ~171 colleges in deficit spending by 2027 — 60 more than today. CollegeWatch was built to intervene before these projections become reality.</div>
         </div>
       </div>
     </div>
@@ -564,11 +564,11 @@ footer a:hover{text-decoration:underline;}
         <div class="how-c-top">
           <div class="how-chip">Step 02 — Score</div>
           <h4>Risk probability is calculated</h4>
-          <p>A logistic model calibrated against real k-NN cluster outcomes from the R analysis converts the normalized inputs into a 0–100% at-risk probability.</p>
+          <p>A logistic regression model trained on 2019 financial data and validated against real 2023–2024 deficit outcomes converts the inputs into a 0–100% at-risk probability.</p>
         </div>
         <div class="how-c-body">
           <div class="how-formula">logit = 2.2·ner + 0.85·nec<br>        + 0.65·nrps + 0.15<br>score = sigmoid(logit) × 100</div>
-          <p>Hard rules enforce the actual at_risk definition from the R model: if spending ratio exceeds 1.0 AND enrollment is falling more than 5%, the minimum score is raised to 70%. If ratio exceeds 1.0 AND enrollment falls more than 10%, minimum is 82%.</p>
+          <p>If the spending ratio exceeds 1.0 the college is already in deficit — it is automatically placed in the Act Now tier regardless of its probability score. This is an observable fact, not a prediction.</p>
         </div>
       </div>
       <div class="how-c">
@@ -578,8 +578,8 @@ footer a:hover{text-decoration:underline;}
           <p>Each college's score falls into one of four tiers. Each tier has a specific, actionable instruction for state higher education boards.</p>
         </div>
         <div class="how-c-body">
-          <div class="how-formula">≥ 75%  →  ACT NOW<br>50–74% →  INTERVENE<br>30–49% →  WATCH<br>0–29%  →  STABLE</div>
-          <p>These thresholds were set based on the cluster profiles from the k-Means analysis. The Distressed cluster (524 colleges, avg spending ratio 0.941) typically scores 50–75%. The Act Now fringe (103 colleges with exp_ratio &gt;1.0) scores 75%+.</p>
+          <div class="how-formula">exp_ratio &gt; 1.0  →  ACT NOW (in deficit now)<br>≥ 50%  →  INTERVENE<br>≥ 30%  →  WATCH<br>&lt; 30%   →  STABLE</div>
+          <p>Act Now is anchored to an observable fact: a college already spending more than it earns right now (spending ratio above 1.0). No model needed. The remaining tiers are assigned by the logistic regression probability. The k-Means clustering is used for descriptive profiling only and does not drive the tier assignments.</p>
         </div>
       </div>
     </div>
@@ -591,26 +591,26 @@ footer a:hover{text-decoration:underline;}
       <tbody>
         <tr>
           <td><span class="tier-dot" style="background:var(--red)"></span><span class="tier-name" style="color:var(--red-lt)">Act Now</span></td>
-          <td style="font-family:'IBM Plex Mono',monospace;color:var(--red-lt)">≥ 75%</td>
-          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">103 (11.7%)</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--red-lt)">In deficit now</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">111 (13.9%)</td>
           <td style="font-size:12px;color:var(--text2)">Activate emergency oversight. Merger, consolidation, targeted funding, or program elimination.</td>
         </tr>
         <tr>
           <td><span class="tier-dot" style="background:var(--amb)"></span><span class="tier-name" style="color:var(--amb-lt)">Intervene</span></td>
           <td style="font-family:'IBM Plex Mono',monospace;color:var(--amb-lt)">50–74%</td>
-          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">33 (3.8%)</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">1 (0.1%)</td>
           <td style="font-size:12px;color:var(--text2)">Formal review. Require 3-year recovery plan. Assign state liaison. Quarterly check-ins.</td>
         </tr>
         <tr>
           <td><span class="tier-dot" style="background:var(--blue)"></span><span class="tier-name" style="color:var(--blue-lt)">Watch</span></td>
           <td style="font-family:'IBM Plex Mono',monospace;color:var(--blue-lt)">30–49%</td>
-          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">60 (6.8%)</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">56 (7.0%)</td>
           <td style="font-size:12px;color:var(--text2)">Monitor quarterly. Document trends. Escalate to Intervene if score rises above 50%.</td>
         </tr>
         <tr>
           <td><span class="tier-dot" style="background:var(--teal)"></span><span class="tier-name" style="color:var(--teal-lt)">Stable</span></td>
           <td style="font-family:'IBM Plex Mono',monospace;color:var(--teal-lt)">&lt; 30%</td>
-          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">682 (77.7%)</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">633 (79.0%)</td>
           <td style="font-size:12px;color:var(--text2)">Standard annual IPEDS review only. No additional action required.</td>
         </tr>
       </tbody>
@@ -619,8 +619,8 @@ footer a:hover{text-decoration:underline;}
 </section>
 
 <footer>
-  <p>EdOptima CollegeWatch &nbsp;·&nbsp; ITEC 620: Business Insights Through Analytics &nbsp;·&nbsp; Kogod School of Business &nbsp;·&nbsp; American University &nbsp;·&nbsp; Spring 2025</p>
-  <p>Client: American Association of Community Colleges (AACC) &nbsp;·&nbsp; Data: <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx" target="_blank">IPEDS nces.ed.gov</a> &nbsp;·&nbsp; Model: Logistic regression calibrated to k-NN (k=9), 878 colleges &nbsp;·&nbsp; AUC: 0.875 &nbsp;·&nbsp; Accuracy: 88.2%</p>
+  <p>EdOptima CollegeWatch &nbsp;·&nbsp; ITEC 620: Business Insights Through Analytics &nbsp;·&nbsp; Kogod School of Business &nbsp;·&nbsp; American University &nbsp;·&nbsp; Summer 2026</p>
+  <p>Client: American Association of Community Colleges (AACC) &nbsp;·&nbsp; Data: <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx" target="_blank">IPEDS nces.ed.gov</a> &nbsp;·&nbsp; Model: Logistic regression, temporal validation (2019 → 2023–2024), 878 colleges &nbsp;·&nbsp; AUC: 0.629 &nbsp;·&nbsp; Accuracy: 76.1%</p>
 </footer>
 
 <script>
@@ -630,10 +630,7 @@ function calcScore(er,ec,rps){
   const ner=(er-0.90)/0.12,nec=(-ec)/15.0,nrps=(9500-rps)/2500.0;
   const logit=2.2*ner+0.85*nec+0.65*nrps+0.15;
   let s=sigmoid(logit);
-  if(er>1.0&&ec<-10) s=Math.max(s,0.82);
-  if(er>1.0&&ec<-5)  s=Math.max(s,0.70);
-  if(er>1.0)         s=Math.max(s,0.58);
-  if(ec<-10)         s=Math.max(s,0.45);
+  if(ec<-10) s=Math.max(s,0.45);
   if(er<0.80&&ec>5&&rps>11000) s=Math.min(s,0.12);
   return Math.round(s*100);
 }
@@ -643,7 +640,7 @@ const TIERS={
   watch:{label:'Watch',emoji:'👁',c:'var(--blue)',cl:'var(--blue-lt)',cg:'var(--blue-glow)',ch:'#2E86DE',action:'Monitor quarterly. Document enrollment and spending trends. No direct intervention yet. If the risk score rises above 50%, escalate to Intervene immediately.'},
   stable:{label:'Stable',emoji:'✓',c:'var(--teal)',cl:'var(--teal-lt)',cg:'var(--teal-glow)',ch:'#00B386',action:'Standard annual IPEDS review only. This college is in good financial health. No additional state board action required at this time.'}
 };
-function getTier(s){return s>=75?TIERS.act:s>=50?TIERS.int:s>=30?TIERS.watch:TIERS.stable;}
+function getTier(s,er){return er>1.0?TIERS.act:s>=50?TIERS.int:s>=30?TIERS.watch:TIERS.stable;}
 
 // ── SYNC ──────────────────────────────────────────────────────
 function sync(){
@@ -661,7 +658,7 @@ function preset(er,ec,rps){document.getElementById('r_er').value=er;document.get
 function arcP(cx,cy,r,s,e){const sr=(s-90)*Math.PI/180,er2=(e-90)*Math.PI/180;return`M ${cx+r*Math.cos(sr)} ${cy+r*Math.sin(sr)} A ${r} ${r} 0 ${e-s>180?1:0} 1 ${cx+r*Math.cos(er2)} ${cy+r*Math.sin(er2)}`;}
 function doScore(){
   const er=+document.getElementById('r_er').value,ec=+document.getElementById('r_ec').value,rps=+document.getElementById('r_rps').value;
-  const pct=calcScore(er,ec,rps),t=getTier(pct);
+  const pct=calcScore(er,ec,rps),t=getTier(pct,er);
   const erC=Math.abs(er-0.90)/0.12,ecC=Math.abs(-ec)/15,rpsC=Math.abs(9500-rps)/2500,tot=erC+ecC+rpsC+.001;
   const ep=Math.round(erC/tot*100),ecp=Math.round(ecC/tot*100),rp=100-ep-ecp;
   const ec2=er>1.0?'#FF6B6B':er>0.92?'#FFB74D':'#4DD0A8';
@@ -701,7 +698,7 @@ ${[0,25,50,75,100].map(v=>{const d=GS+GT*(v/100),rd=(d-90)*Math.PI/180,x1=cx+(r-
 <div class="drv"><div class="d-dot" style="background:${ec3}"></div><div class="d-nm">Enrollment Change</div><div class="d-trk"><div class="d-fill" style="width:0%;background:${ec3}" data-w="${ecp}"></div></div><div class="d-val" style="color:${ec3}">${ec>=0?'+':''}${ec}%</div></div>
 <div class="drv"><div class="d-dot" style="background:${ec4}"></div><div class="d-nm">Revenue / Student</div><div class="d-trk"><div class="d-fill" style="width:0%;background:${ec4}" data-w="${rp}"></div></div><div class="d-val" style="color:${ec4}">$${rps.toLocaleString()}</div></div>
 </div>
-<div class="cnote"><strong>Model:</strong> Logistic calibrated to k-NN (k=9), 878 IPEDS colleges. Drivers: spending ratio (${ep}%), enrollment (${ecp}%), revenue/student (${rp}%). Accuracy: 88.2% | AUC: 0.875 | Specificity: 96.9%</div>`;
+<div class="cnote"><strong>Model:</strong> Logistic regression, temporal validation (2019 → 2023–2024), 878 IPEDS colleges. Drivers: spending ratio (${ep}%), enrollment (${ecp}%), revenue/student (${rp}%). AUC: 0.629 | Accuracy: 76.1% | Specificity: 100.0%</div>`;
   requestAnimationFrame(()=>{const a=document.getElementById('arcF');if(!a)return;const len=a.getTotalLength?a.getTotalLength():400;a.style.strokeDasharray=len;a.style.strokeDashoffset=len;a.style.transition='stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)';requestAnimationFrame(()=>{a.style.strokeDashoffset=len*(1-pct/100);});});
   requestAnimationFrame(()=>{document.querySelectorAll('.d-fill').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.w+'%';},200);});});
 }
@@ -716,9 +713,9 @@ const BASE_DATA=[
   {year:2022,pct:9.6, count:83, enroll:4.43,note:'HEERF peak',base:true},
   {year:2023,pct:14.7,count:122,enroll:4.49,note:'Relief expiring',base:true},
   {year:2024,pct:13.9,count:111,enroll:4.46,note:'Current baseline',base:true},
-  {year:2025,pct:14.8,count:118,enroll:4.47,note:'Projected',base:true,proj:true},
-  {year:2026,pct:17.0,count:136,enroll:4.48,note:'Projected',base:true,proj:true},
-  {year:2027,pct:18.4,count:147,enroll:4.49,note:'Projected',base:true,proj:true},
+  {year:2025,pct:17.0,count:136,enroll:4.47,note:'Projected',base:true,proj:true},
+  {year:2026,pct:19.1,count:153,enroll:4.48,note:'Projected',base:true,proj:true},
+  {year:2027,pct:21.2,count:171,enroll:4.49,note:'Projected',base:true,proj:true},
 ];
 
 function getUserData(){try{return JSON.parse(localStorage.getItem('cw_data')||'[]');}catch{return[];}}
