@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CollegeWatch — Community College Financial Risk System</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700;900&family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#09111C;--navy2:#0D1A27;--navy3:#122030;
+  --surface:#162840;--surface2:#1C3252;
+  --border:#1E3A52;--border2:#264D6B;
+  --blue:#2E86DE;--blue-lt:#5BA3F0;--blue-glow:rgba(46,134,222,0.15);
+  --red:#E53935;--red-lt:#FF6B6B;--red-glow:rgba(229,57,53,0.15);
+  --amb:#FF8F00;--amb-lt:#FFB74D;--amb-glow:rgba(255,143,0,0.15);
+  --teal:#00B386;--teal-lt:#4DD0A8;--teal-glow:rgba(0,179,134,0.15);
+  --text:#E8F4FD;--text2:#7BA7C4;--text3:#3D6B8A;--white:#FFFFFF;
+  --cream:#F9F7F2;--gray:#F2F0EB;--gray2:#E5E2DA;--cborder:#D8D4CB;--ctext:#1A1814;--ctext2:#5A5750;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden;}
+
+/* ── NAV ─────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;background:rgba(9,17,28,0.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,0.07);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;}
+.nav-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--white);letter-spacing:-.02em;}
+.nav-logo em{color:var(--blue-lt);font-style:normal;}
+.nav-links{display:flex;gap:1.75rem;align-items:center;}
+.nav-links a{color:rgba(255,255,255,0.55);font-size:13px;font-weight:500;text-decoration:none;transition:color .2s;font-family:'Syne',sans-serif;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{background:var(--blue);color:var(--white);padding:7px 16px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;font-family:'Syne',sans-serif;}
+.nav-cta:hover{background:var(--blue-lt);color:var(--navy);}
+
+/* ── HERO ────────────────────────────────────── */
+.hero{min-height:100vh;background:var(--navy);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding:100px 2.5rem 60px;}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+.hero-glow{position:absolute;width:800px;height:800px;border-radius:50%;background:radial-gradient(circle,rgba(46,134,222,0.12) 0%,transparent 70%);top:-200px;right:-100px;pointer-events:none;}
+.hero-glow2{position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(229,57,53,0.06) 0%,transparent 70%);bottom:-100px;left:20%;pointer-events:none;}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;position:relative;z-index:2;}
+.hero-ey{display:inline-flex;align-items:center;gap:8px;background:rgba(46,134,222,.18);border:1px solid rgba(46,134,222,.35);color:var(--blue-lt);font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:1.75rem;animation:fadeUp .8s ease both;}
+.hero-ey::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pu 2s ease infinite;}
+@keyframes pu{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.8);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(40px,6vw,78px);font-weight:900;color:var(--white);line-height:1.05;letter-spacing:-2px;margin-bottom:1.5rem;animation:fadeUp .8s .1s ease both;}
+.hero h1 .ac{color:var(--blue-lt);}
+.hero h1 .hl{position:relative;display:inline-block;}
+.hero h1 .hl::after{content:'';position:absolute;bottom:4px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--blue));border-radius:2px;}
+.hero-sub{font-size:18px;line-height:1.7;color:rgba(255,255,255,.55);max-width:560px;margin-bottom:2.5rem;font-weight:300;animation:fadeUp .8s .2s ease both;}
+.hero-acts{display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .8s .3s ease both;}
+.btn-p{background:var(--blue);color:var(--white);padding:14px 28px;border-radius:8px;font-size:15px;font-weight:600;text-decoration:none;font-family:'Syne',sans-serif;display:inline-flex;align-items:center;gap:8px;transition:all .2s;border:none;cursor:pointer;}
+.btn-p:hover{background:var(--blue-lt);color:var(--navy);transform:translateY(-1px);}
+.btn-s{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.8);padding:14px 28px;border-radius:8px;font-size:15px;font-weight:500;text-decoration:none;font-family:'Syne',sans-serif;display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+.btn-s:hover{background:rgba(255,255,255,.12);color:var(--white);}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;margin-top:4rem;animation:fadeUp .8s .5s ease both;}
+.hstat{background:rgba(255,255,255,.025);padding:1.25rem 1.5rem;text-align:center;transition:background .2s;}
+.hstat:hover{background:rgba(255,255,255,.055);}
+.hstat .v{font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:500;color:var(--white);display:block;letter-spacing:-1px;}
+.hstat .l{font-size:11px;color:rgba(255,255,255,.32);margin-top:4px;font-family:'Syne',sans-serif;text-transform:uppercase;letter-spacing:.08em;}
+/* Big number right */
+.hero-num{position:absolute;right:2.5rem;top:50%;transform:translateY(-50%);text-align:right;animation:fadeUp .8s .4s ease both;}
+.hn-lbl{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:.5rem;}
+.hn-val{font-family:'IBM Plex Mono',monospace;font-size:clamp(48px,7vw,88px);font-weight:500;color:rgba(229,57,53,.65);line-height:1;letter-spacing:-3px;}
+.hn-sub{font-size:13px;color:rgba(255,255,255,.28);margin-top:.5rem;}
+
+/* ── SECTION COMMON ──────────────────────────── */
+section{padding:6rem 2.5rem;}
+.si{max-width:1100px;margin:0 auto;}
+.s-ey{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1rem;}
+.s-ey.blue{color:var(--blue-lt);}
+.s-ey.red{color:var(--red-lt);}
+.s-ey.teal{color:var(--teal-lt);}
+.s-ey.amb{color:var(--amb-lt);}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.15;letter-spacing:-1px;margin-bottom:1rem;}
+.s-sub{font-size:16px;line-height:1.7;max-width:540px;font-weight:300;color:rgba(255,255,255,.55);}
+
+/* ── CRISIS BAND ─────────────────────────────── */
+.crisis{background:var(--navy2);border-bottom:1px solid rgba(255,255,255,.06);}
+.crisis-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.crisis-quote{font-family:'Playfair Display',serif;font-size:28px;font-weight:500;color:var(--white);line-height:1.4;}
+.crisis-quote em{color:var(--blue-lt);font-style:italic;}
+.crisis-items{display:flex;flex-direction:column;gap:.875rem;}
+.ci{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;transition:border-color .2s;}
+.ci:hover{border-color:rgba(255,255,255,.13);}
+.ci-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ci-num{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:500;color:var(--white);min-width:90px;}
+.ci-desc{font-size:13px;color:rgba(255,255,255,.48);line-height:1.4;}
+
+/* ── BACKGROUND INFO ─────────────────────────── */
+.bg-section{background:var(--cream);color:var(--ctext);}
+.bg-section .s-sub{color:var(--ctext2);}
+.bg-section .s-title{color:var(--ctext);}
+.bg-section .s-ey.blue{color:var(--blue);}
+.timeline{margin-top:3rem;position:relative;}
+.timeline::before{content:'';position:absolute;left:18px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--blue),var(--teal));border-radius:1px;}
+.te{display:flex;gap:1.5rem;margin-bottom:2rem;position:relative;}
+.te-dot{width:38px;height:38px;border-radius:50%;border:2px solid;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;background:var(--cream);}
+.te-dot.blue{border-color:var(--blue);color:var(--blue);}
+.te-dot.red{border-color:var(--red);color:var(--red);}
+.te-dot.amb{border-color:var(--amb);color:var(--amb);}
+.te-dot.teal{border-color:var(--teal);color:var(--teal);}
+.te-body{padding:.5rem 0;}
+.te-year{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;margin-bottom:.3rem;}
+.te-year.blue{color:var(--blue);}
+.te-year.red{color:var(--red);}
+.te-year.amb{color:var(--amb);}
+.te-year.teal{color:var(--teal);}
+.te-title{font-size:16px;font-weight:600;color:var(--ctext);margin-bottom:.4rem;}
+.te-desc{font-size:14px;color:var(--ctext2);line-height:1.65;}
+.bg-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.bgc{border-radius:16px;overflow:hidden;border:1px solid var(--cborder);background:var(--white);transition:transform .3s,box-shadow .3s;}
+.bgc:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.09);}
+.bgc-top{padding:1.75rem;border-bottom:1px solid;}
+.bgc-top.blue{background:#EBF4FD;border-color:#BDD7EE;}
+.bgc-top.red{background:#FDEDED;border-color:#F5CCCC;}
+.bgc-top.teal{background:#E6F7F3;border-color:#B2DFD4;}
+.bgc-icon{font-size:28px;margin-bottom:.75rem;}
+.bgc-stat{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;letter-spacing:-1px;}
+.bgc-stat.blue{color:var(--blue);}
+.bgc-stat.red{color:var(--red);}
+.bgc-stat.teal{color:var(--teal);}
+.bgc-label{font-size:13px;font-weight:600;color:var(--ctext);margin-top:.25rem;}
+.bgc-body{padding:1.25rem 1.75rem;}
+.bgc-body p{font-size:13.5px;color:var(--ctext2);line-height:1.65;}
+
+/* ── SCORER SECTION ──────────────────────────── */
+.scorer{background:var(--navy);}
+.scorer-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3rem;align-items:start;}
+.inp-panel{background:var(--navy2);border:1px solid var(--border);border-radius:18px;overflow:hidden;}
+.inp-hd{padding:1.25rem 1.5rem;background:linear-gradient(135deg,var(--navy3) 0%,var(--surface) 100%);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem;}
+.inp-ico{width:36px;height:36px;background:var(--blue-glow);border:1px solid var(--blue);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.inp-hd h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white);}
+.inp-hd p{font-size:10px;color:var(--text3);margin-top:1px;font-family:'IBM Plex Mono',monospace;}
+.inp-bd{padding:1.5rem;}
+.field{margin-bottom:1.5rem;}
+.fld-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:.6rem;}
+.f-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);}
+.f-hint{font-size:11px;color:var(--text3);margin-top:2px;}
+.f-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;transition:color .15s;}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;cursor:pointer;outline:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--white);box-shadow:0 0 0 3px var(--blue),0 2px 8px rgba(0,0,0,.4);cursor:pointer;transition:transform .15s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.15);}
+#r_er{background:linear-gradient(90deg,#00B386 0%,#FF8F00 55%,#E53935 100%);}
+#r_ec{background:linear-gradient(90deg,#E53935 0%,#FF8F00 45%,#00B386 100%);}
+#r_rps{background:linear-gradient(90deg,#E53935 0%,#FF8F00 40%,#00B386 100%);}
+.r-tks{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--text3);margin-top:.4rem;}
+.div-line{height:1px;background:var(--border);margin:1.25rem 0;}
+.pre-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.6rem;}
+.pres{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.pb{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;padding:6px 12px;border-radius:8px;cursor:pointer;border:1px solid;transition:all .2s;letter-spacing:.04em;}
+.pb:hover{transform:translateY(-1px);filter:brightness(1.15);}
+.pb-c{border-color:var(--red);color:var(--red-lt);background:var(--red-glow);}
+.pb-s{border-color:var(--amb);color:var(--amb-lt);background:var(--amb-glow);}
+.pb-h{border-color:var(--teal);color:var(--teal-lt);background:var(--teal-glow);}
+.score-btn{width:100%;padding:14px;background:var(--blue);color:var(--white);border:none;border-radius:12px;font-family:'Syne',sans-serif;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.02em;transition:all .2s;position:relative;overflow:hidden;}
+.score-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.1) 0%,transparent 100%);pointer-events:none;}
+.score-btn:hover{background:var(--blue-lt);color:var(--navy);transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,134,222,.35);}
+/* Result */
+.res-panel{background:var(--navy2);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:all .4s ease;}
+.res-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:500px;text-align:center;padding:2.5rem;}
+.e-ico{width:64px;height:64px;background:var(--navy3);border:1px solid var(--border);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:1rem;}
+.e-t{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--text2);margin-bottom:.5rem;}
+.e-d{font-size:12px;color:var(--text3);line-height:1.7;max-width:260px;}
+.r-top{padding:1.75rem 1.75rem 1.25rem;}
+.r-badge{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:1.25rem;border:1px solid;}
+.r-row{display:flex;align-items:flex-end;gap:.75rem;margin-bottom:.75rem;}
+.r-score{font-family:'IBM Plex Mono',monospace;font-size:72px;font-weight:600;line-height:1;}
+.r-sub-b{padding-bottom:6px;}
+.r-lbl{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;letter-spacing:.04em;}
+.r-desc{font-size:11px;color:var(--text2);margin-top:2px;}
+.gauge-w{padding:0 1.5rem .75rem;text-align:center;}
+.r-act{margin:0 1.5rem 1.5rem;border-radius:12px;padding:1.1rem;border-left:3px solid;}
+.r-act-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem;}
+.r-act-txt{font-size:12.5px;line-height:1.7;}
+.drvs{padding:0 1.5rem 1.5rem;}
+.drvs-h{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.75rem;}
+.drv{display:flex;align-items:center;gap:.75rem;padding:.55rem 0;border-bottom:1px solid var(--border);}
+.drv:last-child{border-bottom:none;}
+.d-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.d-nm{font-size:11.5px;color:var(--text2);flex:1;}
+.d-trk{width:80px;height:4px;background:var(--surface2);border-radius:2px;overflow:hidden;}
+.d-fill{height:100%;border-radius:2px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.d-val{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:500;min-width:52px;text-align:right;}
+.cnote{margin:0 1.5rem 1.5rem;background:var(--navy3);border:1px solid var(--border);border-radius:10px;padding:.85rem;font-size:11px;color:var(--text3);line-height:1.7;}
+.cnote strong{color:var(--text2);}
+
+/* ── UPDATE SECTION ──────────────────────────── */
+.update-sec{background:var(--navy2);}
+.update-sec .s-title{color:var(--white);}
+.update-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:2rem;margin-top:3rem;align-items:start;}
+.upd-form{background:var(--navy3);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.upd-hd{padding:1.25rem 1.5rem;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.75rem;}
+.upd-ico{width:36px;height:36px;background:var(--teal-glow);border:1px solid var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;}
+.upd-hd h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white);}
+.upd-hd p{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;margin-top:1px;}
+.upd-bd{padding:1.5rem;}
+.upd-field{margin-bottom:1.1rem;}
+.upd-field label{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--text2);margin-bottom:.4rem;}
+.upd-field .hint{font-size:11px;color:var(--text3);margin-bottom:.4rem;}
+.upd-field input{width:100%;background:var(--navy2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'IBM Plex Mono',monospace;font-size:14px;padding:10px 12px;outline:none;transition:border-color .2s;}
+.upd-field input:focus{border-color:var(--teal);}
+.upd-field input::placeholder{color:var(--text3);}
+.upd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;}
+.upd-btn{width:100%;padding:12px;background:var(--teal);color:var(--white);border:none;border-radius:10px;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;margin-top:.5rem;}
+.upd-btn:hover{background:var(--teal-lt);color:var(--navy);transform:translateY(-1px);}
+.upd-note{background:var(--blue-glow);border:1px solid rgba(46,134,222,.3);border-radius:8px;padding:.75rem;font-size:11px;color:var(--text2);margin-top:.75rem;line-height:1.6;}
+/* Data table */
+.data-table-wrap{background:var(--navy3);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.dt-hd{padding:1.25rem 1.5rem;background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.dt-hd h3{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;color:var(--white);}
+.dt-hd p{font-size:10px;color:var(--text3);font-family:'IBM Plex Mono',monospace;}
+.dt-clear{background:var(--red-glow);border:1px solid rgba(229,57,53,.3);color:var(--red-lt);font-family:'IBM Plex Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .2s;}
+.dt-clear:hover{background:var(--red);color:var(--white);}
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{padding:10px 16px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);background:var(--navy2);border-bottom:1px solid var(--border);}
+.data-table td{padding:10px 16px;font-size:12px;border-bottom:1px solid var(--border);font-family:'IBM Plex Mono',monospace;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:rgba(255,255,255,.02);}
+.dt-year{color:var(--white);font-weight:600;}
+.dt-pct{font-weight:600;}
+.dt-badge{display:inline-block;font-size:9px;padding:2px 7px;border-radius:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;}
+.dt-trend-up{color:var(--red-lt);}
+.dt-trend-dn{color:var(--teal-lt);}
+.dt-trend-flat{color:var(--text3);}
+.dt-new{animation:rowIn .4s ease;}
+@keyframes rowIn{from{background:rgba(0,179,134,.15);}to{background:transparent;}}
+.chart-mini{padding:1rem 1.5rem;border-top:1px solid var(--border);}
+.chart-lbl{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:.75rem;}
+.chart-bars{display:flex;align-items:flex-end;gap:4px;height:60px;}
+.c-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.c-bar{width:100%;border-radius:3px 3px 0 0;transition:height .6s cubic-bezier(.4,0,.2,1);min-height:2px;}
+.c-bar-lbl{font-family:'IBM Plex Mono',monospace;font-size:7px;color:var(--text3);}
+
+/* ── HOW IT WORKS ─────────────────────────────── */
+.how-sec{background:var(--navy);}
+.how-sec .s-title{color:var(--white);}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem;}
+.how-c{background:var(--navy2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s;}
+.how-c:hover{border-color:var(--border2);}
+.how-c-top{padding:1.5rem;border-bottom:1px solid var(--border);}
+.how-chip{font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.75rem;}
+.how-c:nth-child(1) .how-chip{color:var(--teal-lt);}
+.how-c:nth-child(2) .how-chip{color:var(--blue-lt);}
+.how-c:nth-child(3) .how-chip{color:var(--amb-lt);}
+.how-c-top h4{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--white);margin-bottom:.5rem;}
+.how-c-top p{font-size:13px;color:var(--text2);line-height:1.65;}
+.how-c-body{padding:1.25rem 1.5rem;}
+.how-formula{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--teal-lt);background:var(--navy3);border:1px solid var(--border);border-radius:8px;padding:.75rem;line-height:1.7;margin-bottom:.75rem;}
+.how-c-body p{font-size:12px;color:var(--text3);line-height:1.6;}
+.tier-table{width:100%;margin-top:3rem;border-collapse:collapse;border-radius:12px;overflow:hidden;}
+.tier-table th{padding:12px 16px;background:var(--surface);font-family:'IBM Plex Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);text-align:left;}
+.tier-table td{padding:12px 16px;font-size:13px;border-bottom:1px solid var(--border);}
+.tier-table tr:last-child td{border-bottom:none;}
+.tier-table tr:hover td{background:rgba(255,255,255,.02);}
+.tier-name{font-weight:600;font-family:'Syne',sans-serif;}
+.tier-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px;}
+
+/* ── FOOTER ───────────────────────────────────── */
+footer{border-top:1px solid rgba(255,255,255,.06);padding:2rem 2.5rem;text-align:center;}
+footer p{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text3);line-height:1.9;}
+footer a{color:var(--blue-lt);text-decoration:none;}
+footer a:hover{text-decoration:underline;}
+
+@media(max-width:900px){
+  .scorer-grid,.update-grid,.crisis-grid,.bg-cards,.how-grid{grid-template-columns:1fr;}
+  .hero-num{display:none;}
+  .hero-stats{grid-template-columns:repeat(2,1fr);}
+  .nav-links{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">College<em>Watch</em></div>
+  <div class="nav-links">
+    <a href="#crisis">The Crisis</a>
+    <a href="#background">Background</a>
+    <a href="#scorer">Risk Scorer</a>
+    <a href="#update">Update Data</a>
+    <a href="#methodology">Methodology</a>
+  </div>
+  <a href="#scorer" class="nav-cta">Score a College →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-ey">EdOptima · AACC · Kogod School of Business · Summer 2026</div>
+    <h1>The Community College<br><span class="hl">Financial Crisis</span><br>Is <span class="ac">Hiding in Plain Sight</span></h1>
+    <p class="hero-sub">878 public two-year colleges. 10 years of federal data. One early-warning system that tells state boards exactly which colleges need help — and what to do about them.</p>
+    <div class="hero-acts">
+      <a href="#scorer" class="btn-p">Score a College →</a>
+      <a href="#crisis" class="btn-s">Read the Crisis</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><span class="v">878</span><span class="l">Colleges Studied</span></div>
+      <div class="hstat"><span class="v">66.7%</span><span class="l">Financially Distressed</span></div>
+      <div class="hstat"><span class="v">111</span><span class="l">Act Now (2024)</span></div>
+      <div class="hstat"><span class="v">76.1%</span><span class="l">Model Accuracy</span></div>
+    </div>
+  </div>
+  <div class="hero-num">
+    <div class="hn-lbl">Colleges in deficit spending</div>
+    <div class="hn-val">111</div>
+    <div class="hn-sub">as of 2024 — rising</div>
+  </div>
+</section>
+
+<!-- CRISIS BAND -->
+<section class="crisis" id="crisis" style="padding:4rem 2.5rem;">
+  <div class="si">
+    <div class="crisis-grid">
+      <div>
+        <div class="s-ey red" style="margin-bottom:1rem">The Problem</div>
+        <p class="crisis-quote">Community colleges don't close with headlines. They merge quietly, cut programs, and disappear. By the time a crisis is <em>visible</em>, the damage is already done.</p>
+      </div>
+      <div class="crisis-items">
+        <div class="ci"><div class="ci-dot" style="background:var(--red)"></div><div class="ci-num">-19%</div><div class="ci-desc">Enrollment decline since 2014. 5.51M → 4.46M students. Revenue follows enrollment — but costs don't.</div></div>
+        <div class="ci"><div class="ci-dot" style="background:var(--amb)"></div><div class="ci-num">31%</div><div class="ci-desc">Of colleges were already in deficit spending in 2014. Still 31% in 2018. This predates COVID by 6 years.</div></div>
+        <div class="ci"><div class="ci-dot" style="background:var(--blue)"></div><div class="ci-num">$14B</div><div class="ci-desc">In federal COVID relief (HEERF) temporarily dropped the at-risk rate to 9.6% in 2022. That money is gone.</div></div>
+        <div class="ci"><div class="ci-dot" style="background:var(--red)"></div><div class="ci-num">~171</div><div class="ci-desc">Colleges projected in deficit spending by 2027. 60 more than today. No recovery projected without action.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKGROUND INFO -->
+<section class="bg-section" id="background">
+  <div class="si">
+    <div class="s-ey blue">Background</div>
+    <h2 class="s-title" style="color:var(--ctext)">What's Actually Happening — and Why It Matters</h2>
+    <p class="s-sub" style="color:var(--ctext2)">Community colleges serve the students most likely to be left behind if their institution fails. Understanding the full picture requires looking back a decade.</p>
+
+    <div class="bg-cards">
+      <div class="bgc">
+        <div class="bgc-top blue">
+          <div class="bgc-icon">📉</div>
+          <div class="bgc-stat blue">-19%</div>
+          <div class="bgc-label">Enrollment Lost Since 2014</div>
+        </div>
+        <div class="bgc-body">
+          <p>From 5.51 million students in 2014 to 4.46 million in 2024. The COVID-19 pandemic accelerated a decline that had already been underway for years. State per-pupil funding follows enrollment, which means every lost student is also lost revenue — while utilities, faculty contracts, and building maintenance costs stay the same.</p>
+        </div>
+      </div>
+      <div class="bgc">
+        <div class="bgc-top red">
+          <div class="bgc-icon">💸</div>
+          <div class="bgc-stat red">66.7%</div>
+          <div class="bgc-label">Colleges Classified Distressed</div>
+        </div>
+        <div class="bgc-body">
+          <p>524 of 878 colleges have a spending-to-revenue ratio above 0.90 — meaning they're spending 90+ cents for every dollar they earn. These colleges have little financial cushion. A single unexpected cost or enrollment dip can push them into deficit. This is not a regional problem: distressed colleges appear in every state.</p>
+        </div>
+      </div>
+      <div class="bgc">
+        <div class="bgc-top teal">
+          <div class="bgc-icon">🏛️</div>
+          <div class="bgc-stat teal">AACC</div>
+          <div class="bgc-label">The Client Organization</div>
+        </div>
+        <div class="bgc-body">
+          <p>The American Association of Community Colleges represents over 900 public two-year institutions nationwide. It is the primary national advocacy organization for the sector. The AACC needed a standardized tool that any state higher education board can run annually using free federal data — no new reporting, no new cost, updated every year automatically when IPEDS releases new numbers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="s-ey blue" style="margin-bottom:1.5rem;margin-top:3rem">10-Year Timeline</div>
+      <div class="te">
+        <div class="te-dot blue">14</div>
+        <div class="te-body">
+          <div class="te-year blue">2014 — Deliberate Baseline</div>
+          <div class="te-title">31.1% of colleges already in deficit</div>
+          <div class="te-desc">EdOptima chose 2014 as a deliberate 10-year baseline — not because it's the only year available, but because comparing where the sector stood a decade ago to where it stands today is the most compelling way to demonstrate that this is a structural, long-term problem. 273 colleges were spending more than they earned. Enrollment had already begun its long decline.</div>
+        </div>
+      </div>
+      <div class="te">
+        <div class="te-dot amb">18</div>
+        <div class="te-body">
+          <div class="te-year amb">2018 — The Recovery That Wasn't</div>
+          <div class="te-title">Still 31.2% — four years into economic growth</div>
+          <div class="te-desc">By 2018, U.S. unemployment was near historic lows and the economy had been growing for years. The community college at-risk rate barely moved. This confirmed the problem was structural — not cyclical. Enrollment kept falling. Cost structures did not adjust. The sector was heading toward a slow-motion crisis.</div>
+        </div>
+      </div>
+      <div class="te">
+        <div class="te-dot blue">22</div>
+        <div class="te-body">
+          <div class="te-year blue">2022 — The Relief Illusion</div>
+          <div class="te-title">9.6% at-risk — but only because of $14B in federal money</div>
+          <div class="te-desc">The HEERF (Higher Education Emergency Relief Fund) injected $14 billion into community colleges. The at-risk rate dropped to 9.6% — its lowest point in our dataset. Many state boards interpreted this as recovery. It was not. It was a painkiller. The underlying illness — falling enrollment, rising costs — was unchanged. When the relief expired, the numbers came back.</div>
+        </div>
+      </div>
+      <div class="te">
+        <div class="te-dot red">24</div>
+        <div class="te-body">
+          <div class="te-year red">2024 — Rising Again</div>
+          <div class="te-title">13.9% and projected to reach ~21% by 2027</div>
+          <div class="te-desc">With HEERF funds fully depleted, the at-risk rate has climbed to 13.9%. Institution-level projections applying each college's own enrollment trend forward with 2% annual expense growth project ~171 colleges in deficit spending by 2027 — 60 more than today. CollegeWatch was built to intervene before these projections become reality.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RISK SCORER -->
+<section class="scorer" id="scorer">
+  <div class="si">
+    <div class="s-ey blue">Live Risk Scorer</div>
+    <h2 class="s-title">Score Any College's Financial Risk</h2>
+    <p class="s-sub">Enter three numbers from IPEDS. Get a risk score, a tier, and the exact state board action — instantly.</p>
+
+    <div class="scorer-grid">
+      <!-- Input -->
+      <div class="inp-panel">
+        <div class="inp-hd">
+          <div class="inp-ico">📊</div>
+          <div><h3>College Financial Data</h3><p>SOURCE: IPEDS — nces.ed.gov/ipeds</p></div>
+        </div>
+        <div class="inp-bd">
+          <div class="field">
+            <div class="fld-top">
+              <div><div class="f-lbl">Spending-to-Revenue Ratio</div><div class="f-hint">Total spending ÷ revenue. Above 1.0 = deficit spending.</div></div>
+              <div class="f-val" id="v_er" style="color:var(--teal-lt)">0.85</div>
+            </div>
+            <input type="range" id="r_er" min="0.50" max="1.50" step="0.01" value="0.85" oninput="sync()">
+            <div class="r-tks"><span>0.50 healthy</span><span>1.0 break-even</span><span>1.50 deficit</span></div>
+          </div>
+          <div class="field">
+            <div class="fld-top">
+              <div><div class="f-lbl">3-Year Enrollment Change</div><div class="f-hint">Negative = students leaving. Below -10% is a warning sign.</div></div>
+              <div class="f-val" id="v_ec" style="color:var(--teal-lt)">-5%</div>
+            </div>
+            <input type="range" id="r_ec" min="-40" max="40" step="1" value="-5" oninput="sync()">
+            <div class="r-tks"><span>-40% severe</span><span>0%</span><span>+40% growing</span></div>
+          </div>
+          <div class="field">
+            <div class="fld-top">
+              <div><div class="f-lbl">Revenue Per Student (annual)</div><div class="f-hint">Total revenue ÷ enrolled students. Below $7k is danger zone.</div></div>
+              <div class="f-val" id="v_rps" style="color:var(--teal-lt)">$8,500</div>
+            </div>
+            <input type="range" id="r_rps" min="3000" max="20000" step="100" value="8500" oninput="sync()">
+            <div class="r-tks"><span>$3k low</span><span>$11.5k avg</span><span>$20k high</span></div>
+          </div>
+          <div class="div-line"></div>
+          <div class="pre-lbl">Try a quick example:</div>
+          <div class="pres">
+            <button class="pb pb-c" onclick="preset(1.12,-22,5800)">🚨 Crisis College</button>
+            <button class="pb pb-s" onclick="preset(0.91,-8,8200)">⚠ Struggling</button>
+            <button class="pb pb-h" onclick="preset(0.75,14,12800)">✓ Healthy College</button>
+          </div>
+          <button class="score-btn" onclick="doScore()">Calculate Risk Score  →</button>
+        </div>
+      </div>
+
+      <!-- Result -->
+      <div class="res-panel res-empty" id="result">
+        <div class="e-ico">🎯</div>
+        <div class="e-t">Ready to Score</div>
+        <div class="e-d">Enter a college's data and click <strong style="color:var(--text)">Calculate</strong> to see its risk tier and state board recommendation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- UPDATE DATA -->
+<section class="update-sec" id="update">
+  <div class="si">
+    <div class="s-ey teal">Add New Year Data</div>
+    <h2 class="s-title">Keep CollegeWatch Current</h2>
+    <p class="s-sub">IPEDS releases new data every year. Add the latest figures here to update the sector timeline. Data is saved in your browser.</p>
+
+    <div class="update-grid">
+      <div class="upd-form">
+        <div class="upd-hd">
+          <div class="upd-ico">➕</div>
+          <div><h3>Add a New Data Year</h3><p>FROM: IPEDS — nces.ed.gov/ipeds/datacenter/DataFiles.aspx</p></div>
+        </div>
+        <div class="upd-bd">
+          <div class="upd-field">
+            <label>Data Year <span class="hint">(e.g. 2025)</span></label>
+            <input type="number" id="upd_year" placeholder="e.g. 2025" min="2014" max="2035">
+          </div>
+          <div class="upd-grid2">
+            <div class="upd-field">
+              <label>% Colleges in Deficit</label>
+              <div class="hint" style="font-size:11px;color:var(--text3);margin-bottom:.4rem">e.g. 15.2</div>
+              <input type="number" id="upd_pct" placeholder="e.g. 15.2" step="0.1" min="0" max="100">
+            </div>
+            <div class="upd-field">
+              <label># Colleges in Deficit</label>
+              <div class="hint" style="font-size:11px;color:var(--text3);margin-bottom:.4rem">e.g. 122</div>
+              <input type="number" id="upd_count" placeholder="e.g. 122" min="0" max="878">
+            </div>
+          </div>
+          <div class="upd-field">
+            <label>Total Enrollment (millions)</label>
+            <div class="hint" style="font-size:11px;color:var(--text3);margin-bottom:.4rem">e.g. 4.46</div>
+            <input type="number" id="upd_enroll" placeholder="e.g. 4.46" step="0.01" min="1" max="8">
+          </div>
+          <div class="upd-field">
+            <label>Notes (optional)</label>
+            <input type="text" id="upd_note" placeholder="e.g. HEERF relief expired, enrollment stabilizing">
+          </div>
+          <button class="upd-btn" onclick="addYear()">Add Year to Timeline  →</button>
+          <div class="upd-note">💡 <strong>Where to find this data:</strong> Download the IPEDS Finance file (F-series) for the relevant year at <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx" target="_blank" style="color:var(--teal-lt)">nces.ed.gov/ipeds</a>. Compute % in deficit by dividing total_expenditures by total_revenues for each institution and counting those above 1.0.</div>
+        </div>
+      </div>
+
+      <div class="data-table-wrap">
+        <div class="dt-hd">
+          <div>
+            <h3>Sector Timeline</h3>
+            <p id="dt-count-lbl">Historical + any years you add</p>
+          </div>
+          <button class="dt-clear" onclick="clearAdded()">Clear Added</button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table" id="dataTable">
+            <thead>
+              <tr>
+                <th>Year</th>
+                <th>% In Deficit</th>
+                <th># Colleges</th>
+                <th>Enrollment</th>
+                <th>Trend</th>
+                <th>Note</th>
+              </tr>
+            </thead>
+            <tbody id="dataTbody"></tbody>
+          </table>
+        </div>
+        <div class="chart-mini">
+          <div class="chart-lbl">At-Risk Rate Visual</div>
+          <div class="chart-bars" id="chartBars"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="how-sec" id="methodology">
+  <div class="si">
+    <div class="s-ey teal">Methodology</div>
+    <h2 class="s-title">How the Scoring Model Works</h2>
+    <p class="s-sub">Three steps: normalize the inputs, calculate the risk probability, assign a state board action. Built on 878 real IPEDS colleges.</p>
+
+    <div class="how-grid">
+      <div class="how-c">
+        <div class="how-c-top">
+          <div class="how-chip">Step 01 — Normalize</div>
+          <h4>All inputs are standardized</h4>
+          <p>Each variable is centered and scaled using the mean and standard deviation from the real 878-college IPEDS dataset — matching the scale() transformation used in R Studio.</p>
+        </div>
+        <div class="how-c-body">
+          <div class="how-formula">ner  = (er  − 0.90) / 0.12<br>nec  = (−ec)       / 15.0<br>nrps = (9500 − rps) / 2500</div>
+          <p>Normalization ensures no single variable dominates because of its scale. The spending ratio has the largest real-world weight (2.2×); enrollment change is secondary (0.85×); revenue per student is tertiary (0.65×).</p>
+        </div>
+      </div>
+      <div class="how-c">
+        <div class="how-c-top">
+          <div class="how-chip">Step 02 — Score</div>
+          <h4>Risk probability is calculated</h4>
+          <p>A logistic regression model trained on 2019 financial data and validated against real 2023–2024 deficit outcomes converts the inputs into a 0–100% at-risk probability.</p>
+        </div>
+        <div class="how-c-body">
+          <div class="how-formula">logit = 2.2·ner + 0.85·nec<br>        + 0.65·nrps + 0.15<br>score = sigmoid(logit) × 100</div>
+          <p>If the spending ratio exceeds 1.0 the college is already in deficit — it is automatically placed in the Act Now tier regardless of its probability score. This is an observable fact, not a prediction.</p>
+        </div>
+      </div>
+      <div class="how-c">
+        <div class="how-c-top">
+          <div class="how-chip">Step 03 — Prescribe</div>
+          <h4>Score maps to a state board action</h4>
+          <p>Each college's score falls into one of four tiers. Each tier has a specific, actionable instruction for state higher education boards.</p>
+        </div>
+        <div class="how-c-body">
+          <div class="how-formula">exp_ratio &gt; 1.0  →  ACT NOW (in deficit now)<br>≥ 50%  →  INTERVENE<br>≥ 30%  →  WATCH<br>&lt; 30%   →  STABLE</div>
+          <p>Act Now is anchored to an observable fact: a college already spending more than it earns right now (spending ratio above 1.0). No model needed. The remaining tiers are assigned by the logistic regression probability. The k-Means clustering is used for descriptive profiling only and does not drive the tier assignments.</p>
+        </div>
+      </div>
+    </div>
+
+    <table class="tier-table" style="margin-top:3rem">
+      <thead>
+        <tr><th>Tier</th><th>Score Range</th><th># Colleges (2024)</th><th>State Board Action</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="tier-dot" style="background:var(--red)"></span><span class="tier-name" style="color:var(--red-lt)">Act Now</span></td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--red-lt)">In deficit now</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">111 (13.9%)</td>
+          <td style="font-size:12px;color:var(--text2)">Activate emergency oversight. Merger, consolidation, targeted funding, or program elimination.</td>
+        </tr>
+        <tr>
+          <td><span class="tier-dot" style="background:var(--amb)"></span><span class="tier-name" style="color:var(--amb-lt)">Intervene</span></td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--amb-lt)">50–74%</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">1 (0.1%)</td>
+          <td style="font-size:12px;color:var(--text2)">Formal review. Require 3-year recovery plan. Assign state liaison. Quarterly check-ins.</td>
+        </tr>
+        <tr>
+          <td><span class="tier-dot" style="background:var(--blue)"></span><span class="tier-name" style="color:var(--blue-lt)">Watch</span></td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--blue-lt)">30–49%</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">56 (7.0%)</td>
+          <td style="font-size:12px;color:var(--text2)">Monitor quarterly. Document trends. Escalate to Intervene if score rises above 50%.</td>
+        </tr>
+        <tr>
+          <td><span class="tier-dot" style="background:var(--teal)"></span><span class="tier-name" style="color:var(--teal-lt)">Stable</span></td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--teal-lt)">&lt; 30%</td>
+          <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">633 (79.0%)</td>
+          <td style="font-size:12px;color:var(--text2)">Standard annual IPEDS review only. No additional action required.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>EdOptima CollegeWatch &nbsp;·&nbsp; ITEC 620: Business Insights Through Analytics &nbsp;·&nbsp; Kogod School of Business &nbsp;·&nbsp; American University &nbsp;·&nbsp; Summer 2026</p>
+  <p>Client: American Association of Community Colleges (AACC) &nbsp;·&nbsp; Data: <a href="https://nces.ed.gov/ipeds/datacenter/DataFiles.aspx" target="_blank">IPEDS nces.ed.gov</a> &nbsp;·&nbsp; Model: Logistic regression, temporal validation (2019 → 2023–2024), 878 colleges &nbsp;·&nbsp; AUC: 0.629 &nbsp;·&nbsp; Accuracy: 76.1%</p>
+</footer>
+
+<script>
+// ── MODEL ─────────────────────────────────────────────────────
+function sigmoid(x){return 1/(1+Math.exp(-x));}
+function calcScore(er,ec,rps){
+  const ner=(er-0.90)/0.12,nec=(-ec)/15.0,nrps=(9500-rps)/2500.0;
+  const logit=2.2*ner+0.85*nec+0.65*nrps+0.15;
+  let s=sigmoid(logit);
+  if(ec<-10) s=Math.max(s,0.45);
+  if(er<0.80&&ec>5&&rps>11000) s=Math.min(s,0.12);
+  return Math.round(s*100);
+}
+const TIERS={
+  act:{label:'Act Now',emoji:'🚨',c:'var(--red)',cl:'var(--red-lt)',cg:'var(--red-glow)',ch:'#E53935',action:'Activate state emergency oversight immediately. Options include directing a merger with a nearby college, eliminating non-essential programs, or injecting emergency targeted funding. Do not defer to the next reporting cycle.'},
+  int:{label:'Intervene',emoji:'⚠',c:'var(--amb)',cl:'var(--amb-lt)',cg:'var(--amb-glow)',ch:'#FF8F00',action:'Begin a formal financial review. Require a 3-year financial recovery plan within 90 days. Assign a state board liaison with quarterly check-ins. Escalate to Act Now if conditions worsen.'},
+  watch:{label:'Watch',emoji:'👁',c:'var(--blue)',cl:'var(--blue-lt)',cg:'var(--blue-glow)',ch:'#2E86DE',action:'Monitor quarterly. Document enrollment and spending trends. No direct intervention yet. If the risk score rises above 50%, escalate to Intervene immediately.'},
+  stable:{label:'Stable',emoji:'✓',c:'var(--teal)',cl:'var(--teal-lt)',cg:'var(--teal-glow)',ch:'#00B386',action:'Standard annual IPEDS review only. This college is in good financial health. No additional state board action required at this time.'}
+};
+function getTier(s,er){return er>1.0?TIERS.act:s>=50?TIERS.int:s>=30?TIERS.watch:TIERS.stable;}
+
+// ── SYNC ──────────────────────────────────────────────────────
+function sync(){
+  const er=+document.getElementById('r_er').value,ec=+document.getElementById('r_ec').value,rps=+document.getElementById('r_rps').value;
+  document.getElementById('v_er').textContent=er.toFixed(2);
+  document.getElementById('v_ec').textContent=(ec>=0?'+':'')+ec+'%';
+  document.getElementById('v_rps').textContent='$'+rps.toLocaleString();
+  document.getElementById('v_er').style.color=er>1.0?'var(--red-lt)':er>0.92?'var(--amb-lt)':'var(--teal-lt)';
+  document.getElementById('v_ec').style.color=ec<-10?'var(--red-lt)':ec<0?'var(--amb-lt)':'var(--teal-lt)';
+  document.getElementById('v_rps').style.color=rps<6500?'var(--red-lt)':rps<9000?'var(--amb-lt)':'var(--teal-lt)';
+}
+function preset(er,ec,rps){document.getElementById('r_er').value=er;document.getElementById('r_ec').value=ec;document.getElementById('r_rps').value=rps;sync();}
+
+// ── SCORE ─────────────────────────────────────────────────────
+function arcP(cx,cy,r,s,e){const sr=(s-90)*Math.PI/180,er2=(e-90)*Math.PI/180;return`M ${cx+r*Math.cos(sr)} ${cy+r*Math.sin(sr)} A ${r} ${r} 0 ${e-s>180?1:0} 1 ${cx+r*Math.cos(er2)} ${cy+r*Math.sin(er2)}`;}
+function doScore(){
+  const er=+document.getElementById('r_er').value,ec=+document.getElementById('r_ec').value,rps=+document.getElementById('r_rps').value;
+  const pct=calcScore(er,ec,rps),t=getTier(pct,er);
+  const erC=Math.abs(er-0.90)/0.12,ecC=Math.abs(-ec)/15,rpsC=Math.abs(9500-rps)/2500,tot=erC+ecC+rpsC+.001;
+  const ep=Math.round(erC/tot*100),ecp=Math.round(ecC/tot*100),rp=100-ep-ecp;
+  const ec2=er>1.0?'#FF6B6B':er>0.92?'#FFB74D':'#4DD0A8';
+  const ec3=ec<-10?'#FF6B6B':ec<0?'#FFB74D':'#4DD0A8';
+  const ec4=rps<6500?'#FF6B6B':rps<9000?'#FFB74D':'#4DD0A8';
+  const GS=150,GT=240,cx=100,cy=90,r=70,fe=GS+GT*(pct/100);
+  const tp=arcP(cx,cy,r,GS,GS+GT),fp=arcP(cx,cy,r,GS,fe);
+  const nr=(fe-90)*Math.PI/180,nx=cx+(r+4)*Math.cos(nr),ny=cy+(r+4)*Math.sin(nr);
+  const el=document.getElementById('result');
+  el.classList.remove('res-empty');
+  el.innerHTML=`
+<div class="r-top">
+  <div class="r-badge" style="background:${t.cg};color:${t.c};border-color:${t.ch}40">${t.emoji} &nbsp; TIER: ${t.label.toUpperCase()}</div>
+  <div class="r-row">
+    <div class="r-score" style="color:${t.c}">${pct}<span style="font-size:28px;font-weight:400">%</span></div>
+    <div class="r-sub-b"><div class="r-lbl" style="color:${t.c}">${t.label}</div><div class="r-desc">Risk of financial distress</div></div>
+  </div>
+</div>
+<div class="gauge-w">
+<svg width="200" height="120" viewBox="0 0 200 120" style="overflow:visible">
+<defs>
+<linearGradient id="ag" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#00B386"/><stop offset="40%" stop-color="#FF8F00"/><stop offset="75%" stop-color="#E53935"/><stop offset="100%" stop-color="#B71C1C"/></linearGradient>
+<filter id="gl"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<path d="${tp}" fill="none" stroke="#1C3252" stroke-width="10" stroke-linecap="round"/>
+<path d="${fp}" fill="none" stroke="url(#ag)" stroke-width="10" stroke-linecap="round" filter="url(#gl)" id="arcF" stroke-dasharray="999" stroke-dashoffset="999"/>
+<text x="${cx}" y="${cy+4}" text-anchor="middle" font-family="IBM Plex Mono" font-size="22" font-weight="600" fill="${t.ch}">${pct}%</text>
+<text x="${cx}" y="${cy+19}" text-anchor="middle" font-family="DM Sans" font-size="9" fill="#3D6B8A" letter-spacing="1">${t.label.toUpperCase()}</text>
+${[0,25,50,75,100].map(v=>{const d=GS+GT*(v/100),rd=(d-90)*Math.PI/180,x1=cx+(r-8)*Math.cos(rd),y1=cy+(r-8)*Math.sin(rd),x2=cx+(r+14)*Math.cos(rd),y2=cy+(r+14)*Math.sin(rd),lx=cx+(r+22)*Math.cos(rd),ly=cy+(r+22)*Math.sin(rd);return`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#264D6B" stroke-width="1.5"/><text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono" font-size="7" fill="#3D6B8A">${v}%</text>`;}).join('')}
+<circle cx="${nx}" cy="${ny}" r="5" fill="${t.ch}" filter="url(#gl)"/>
+</svg>
+</div>
+<div class="r-act" style="background:${t.cg};border-color:${t.ch}"><div class="r-act-lbl" style="color:${t.c}">State Board Action</div><div class="r-act-txt">${t.action}</div></div>
+<div class="drvs">
+<div class="drvs-h">What's Driving This Score</div>
+<div class="drv"><div class="d-dot" style="background:${ec2}"></div><div class="d-nm">Spending Ratio</div><div class="d-trk"><div class="d-fill" style="width:0%;background:${ec2}" data-w="${ep}"></div></div><div class="d-val" style="color:${ec2}">${er.toFixed(2)}</div></div>
+<div class="drv"><div class="d-dot" style="background:${ec3}"></div><div class="d-nm">Enrollment Change</div><div class="d-trk"><div class="d-fill" style="width:0%;background:${ec3}" data-w="${ecp}"></div></div><div class="d-val" style="color:${ec3}">${ec>=0?'+':''}${ec}%</div></div>
+<div class="drv"><div class="d-dot" style="background:${ec4}"></div><div class="d-nm">Revenue / Student</div><div class="d-trk"><div class="d-fill" style="width:0%;background:${ec4}" data-w="${rp}"></div></div><div class="d-val" style="color:${ec4}">$${rps.toLocaleString()}</div></div>
+</div>
+<div class="cnote"><strong>Model:</strong> Logistic regression, temporal validation (2019 → 2023–2024), 878 IPEDS colleges. Drivers: spending ratio (${ep}%), enrollment (${ecp}%), revenue/student (${rp}%). AUC: 0.629 | Accuracy: 76.1% | Specificity: 100.0%</div>`;
+  requestAnimationFrame(()=>{const a=document.getElementById('arcF');if(!a)return;const len=a.getTotalLength?a.getTotalLength():400;a.style.strokeDasharray=len;a.style.strokeDashoffset=len;a.style.transition='stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)';requestAnimationFrame(()=>{a.style.strokeDashoffset=len*(1-pct/100);});});
+  requestAnimationFrame(()=>{document.querySelectorAll('.d-fill').forEach(b=>{setTimeout(()=>{b.style.width=b.dataset.w+'%';},200);});});
+}
+
+// ── DATASET ───────────────────────────────────────────────────
+const BASE_DATA=[
+  {year:2014,pct:31.1,count:273,enroll:5.51,note:'10-year baseline',base:true},
+  {year:2018,pct:31.2,count:274,enroll:5.14,note:'Post-recession unchanged',base:true},
+  {year:2019,pct:26.5,count:233,enroll:5.11,note:'',base:true},
+  {year:2020,pct:24.8,count:217,enroll:4.64,note:'COVID begins',base:true},
+  {year:2021,pct:16.2,count:142,enroll:4.46,note:'HEERF relief begins',base:true},
+  {year:2022,pct:9.6, count:83, enroll:4.43,note:'HEERF peak',base:true},
+  {year:2023,pct:14.7,count:122,enroll:4.49,note:'Relief expiring',base:true},
+  {year:2024,pct:13.9,count:111,enroll:4.46,note:'Current baseline',base:true},
+  {year:2025,pct:17.0,count:136,enroll:4.47,note:'Projected',base:true,proj:true},
+  {year:2026,pct:19.1,count:153,enroll:4.48,note:'Projected',base:true,proj:true},
+  {year:2027,pct:21.2,count:171,enroll:4.49,note:'Projected',base:true,proj:true},
+];
+
+function getUserData(){try{return JSON.parse(localStorage.getItem('cw_data')||'[]');}catch{return[];}}
+function saveUserData(d){try{localStorage.setItem('cw_data',JSON.stringify(d));}catch{}}
+
+function allData(){
+  const ud=getUserData();
+  const merged=[...BASE_DATA];
+  ud.forEach(u=>{
+    const i=merged.findIndex(b=>b.year===u.year);
+    if(i>=0) merged[i]={...merged[i],...u,base:merged[i].base};
+    else merged.push(u);
+  });
+  merged.sort((a,b)=>a.year-b.year);
+  return merged;
+}
+
+function renderTable(){
+  const data=allData();
+  const tbody=document.getElementById('dataTbody');
+  const addedCount=getUserData().length;
+  document.getElementById('dt-count-lbl').textContent=`${data.length} years${addedCount>0?` (${addedCount} added by you)`:''}`;
+  tbody.innerHTML='';
+  data.forEach((row,i)=>{
+    const prev=i>0?data[i-1]:null;
+    let trend='',tClass='dt-trend-flat';
+    if(prev&&!row.proj){
+      const d=row.pct-prev.pct;
+      if(d>0.5){trend=`↑ +${d.toFixed(1)}%`;tClass='dt-trend-up';}
+      else if(d<-0.5){trend=`↓ ${d.toFixed(1)}%`;tClass='dt-trend-dn';}
+      else{trend='→ stable';tClass='dt-trend-flat';}
+    }
+    const pctColor=row.pct>=25?'var(--red-lt)':row.pct>=15?'var(--amb-lt)':'var(--teal-lt)';
+    const isNew=!row.base;
+    const tr=document.createElement('tr');
+    if(isNew)tr.classList.add('dt-new');
+    tr.innerHTML=`
+      <td><span class="dt-year">${row.year}</span>${row.proj?'<span style="font-size:9px;color:var(--text3);margin-left:4px">proj.</span>':''}${isNew?'<span style="font-size:9px;color:var(--teal-lt);margin-left:4px">new</span>':''}</td>
+      <td><span class="dt-pct" style="color:${pctColor}">${row.pct}%</span></td>
+      <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">${row.count}</td>
+      <td style="font-family:'IBM Plex Mono',monospace;color:var(--text2)">${row.enroll}M</td>
+      <td><span class="${tClass}">${trend}</span></td>
+      <td style="font-size:11px;color:var(--text3)">${row.note||''}</td>`;
+    tbody.appendChild(tr);
+  });
+  renderChart(data);
+}
+
+function renderChart(data){
+  const bars=document.getElementById('chartBars');
+  const maxPct=Math.max(...data.map(d=>d.pct),35);
+  bars.innerHTML='';
+  data.forEach(row=>{
+    const h=Math.max(4,(row.pct/maxPct)*52);
+    const c=row.pct>=25?'#E53935':row.pct>=15?'#FF8F00':'#00B386';
+    const op=row.proj?0.5:1;
+    bars.innerHTML+=`<div class="c-bar-wrap" title="${row.year}: ${row.pct}%"><div class="c-bar" style="height:${h}px;background:${c};opacity:${op}"></div><div class="c-bar-lbl">${String(row.year).slice(2)}</div></div>`;
+  });
+}
+
+function addYear(){
+  const year=parseInt(document.getElementById('upd_year').value);
+  const pct=parseFloat(document.getElementById('upd_pct').value);
+  const count=parseInt(document.getElementById('upd_count').value);
+  const enroll=parseFloat(document.getElementById('upd_enroll').value);
+  const note=document.getElementById('upd_note').value.trim();
+  if(!year||year<2000||year>2040){alert('Please enter a valid year (2000-2040).');return;}
+  if(isNaN(pct)||pct<0||pct>100){alert('Please enter a valid % in deficit (0-100).');return;}
+  if(isNaN(count)||count<0){alert('Please enter a valid count.');return;}
+  if(isNaN(enroll)||enroll<0){alert('Please enter a valid enrollment figure.');return;}
+  const ud=getUserData();
+  const existing=ud.findIndex(d=>d.year===year);
+  const newRow={year,pct,count,enroll,note};
+  if(existing>=0)ud[existing]=newRow;
+  else ud.push(newRow);
+  saveUserData(ud);
+  document.getElementById('upd_year').value='';
+  document.getElementById('upd_pct').value='';
+  document.getElementById('upd_count').value='';
+  document.getElementById('upd_enroll').value='';
+  document.getElementById('upd_note').value='';
+  renderTable();
+}
+
+function clearAdded(){
+  if(confirm('Remove all years you have added? The original historical data will remain.')){
+    saveUserData([]);
+    renderTable();
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+sync();
+renderTable();
+</script>
+</body>
+</html>
